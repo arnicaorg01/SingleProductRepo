@@ -25,3 +25,20 @@ $cmd = "ls " . $filename;
 $output = shell_exec($cmd);
 echo "<pre>$output</pre>";
 
+// Cross-Site Scripting (XSS) - CWE-79
+echo "Welcome, " . $_GET['name'];
+
+// File Inclusion - CWE-98
+include($_GET['page']);  // No sanitization = dangerous!
+
+// Path Traversal - CWE-22
+$filePath = "/var/data/" . $filename;
+if (file_exists($filePath)) {
+    readfile($filePath);
+} else {
+    echo "File not found.";
+}
+
+mysqli_close($conn);
+?>
+
